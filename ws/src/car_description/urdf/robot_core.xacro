@@ -5,13 +5,13 @@
     <xacro:include filename="materials.xacro"/>
     <xacro:include filename="inertial_macros.xacro"/>
 
-    <!-- Robot structure
+    <!-- Robot structure -->
     <xacro:include filename="base_frames.xacro"/>
     <xacro:include filename="chassis.xacro"/>
     <xacro:include filename="steering.xacro"/>
     <xacro:include filename="wheels.xacro"/>
 
     <!-- Control -->
-    <xacro:include filename="ros2_control.xacro"/> -->
-
+    <xacro:include filename="ros2_control.xacro"/>
+    <xacro:include filename="gazebo_control.xacro"/>
 </robot>

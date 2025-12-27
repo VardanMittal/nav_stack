@@ -2,7 +2,7 @@ FROM osrf/ros:humble-desktop
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install essential dev tools only
+# Install essential dev tools
 RUN apt-get update && apt-get install -y \
     git \
     build-essential \
@@ -16,12 +16,19 @@ RUN apt-get update && apt-get install -y \
     ros-humble-robot-state-publisher \
     ros-humble-joint-state-publisher \
     ros-humble-joint-state-publisher-gui \
+    ros-humble-ros2-control \
+    ros-humble-ros2-controllers \
+    ros-humble-joint-state-broadcaster \
+    ros-humble-position-controllers \
+    ros-humble-velocity-controllers \
+    ros-humble-ros-gz \
+    ros-humble-ros-gz-sim \
+    ros-humble-ros-gz-bridge \
  && rm -rf /var/lib/apt/lists/*
 
 # Source ROS automatically
 RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> /etc/bash.bashrc
 
-# Workspace directory (DevContainer will mount here)
 WORKDIR /workspaces/nav_stack
 
 CMD ["bash"]

@@ -1,0 +1,13 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <gazebo>
+    <plugin
+      filename="libros_gz_control.so"
+      name="ros_gz_control::GazeboSystem">
+      <parameters>
+        <parameter name="use_sim_time">true</parameter>
+      </parameters>
+    </plugin>
+  </gazebo>
+
+</robot>
