@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="nav_stack">
+
+    <!-- Common -->
+    <xacro:include filename="materials.xacro"/>
+    <xacro:include filename="inertial_macros.xacro"/>
+
+    <!-- Robot structure
+    <xacro:include filename="base_frames.xacro"/>
+    <xacro:include filename="chassis.xacro"/>
+    <xacro:include filename="steering.xacro"/>
+    <xacro:include filename="wheels.xacro"/>
+
+    <!-- Control -->
+    <xacro:include filename="ros2_control.xacro"/> -->
+
+</robot>

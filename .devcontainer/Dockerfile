@@ -7,11 +7,15 @@ RUN apt-get update && apt-get install -y \
     git \
     build-essential \
     cmake \
+    nano \
+    x11-apps \
     python3-colcon-common-extensions \
     python3-rosdep \
     python3-vcstool \
-    nano \
-    x11-apps \
+    ros-humble-xacro \
+    ros-humble-robot-state-publisher \
+    ros-humble-joint-state-publisher \
+    ros-humble-joint-state-publisher-gui \
  && rm -rf /var/lib/apt/lists/*
 
 # Source ROS automatically
