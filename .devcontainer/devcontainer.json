@@ -16,6 +16,5 @@
         "ms-azuretools.vscode-docker"
       ]
     }
-  },
-  "remoteUser": "root"
+  }
 }
