@@ -1,5 +1,6 @@
 import os
 from launch import LaunchDescription
+from launch.actions import ExecuteProcess
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 import xacro
@@ -14,15 +15,27 @@ def generate_launch_description():
         'robot_description': xacro.process_file(xacro_file).toxml()
     }
 
-    # Gazebo Harmonic
-    gazebo = Node(
-        package='ros_gz_sim',
-        executable='gz_sim',
-        arguments=['-r', 'empty.sdf'],
+    # -------------------------------
+    # Gazebo Fortress (SYSTEM PROCESS)
+    # -------------------------------
+    gazebo = ExecuteProcess(
+        cmd=['ign', 'gazebo', 'empty.sdf', '-r'],
         output='screen'
     )
 
-    # Spawn robot
+    # -------------------------------
+    # Robot State Publisher
+    # -------------------------------
+    rsp = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        parameters=[robot_description],
+        output='screen'
+    )
+
+    # -------------------------------
+    # Spawn robot into Gazebo
+    # -------------------------------
     spawn_robot = Node(
         package='ros_gz_sim',
         executable='create',
@@ -30,14 +43,6 @@ def generate_launch_description():
             '-name', 'neuro_nav',
             '-topic', 'robot_description'
         ],
-        output='screen'
-    )
-
-    # robot_state_publisher
-    rsp = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        parameters=[robot_description],
         output='screen'
     )
 
