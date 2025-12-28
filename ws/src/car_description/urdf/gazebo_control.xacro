@@ -4,9 +4,9 @@
     <plugin
       filename="libros_gz_control.so"
       name="ros_gz_control::GazeboSystem">
-      <parameters>
-        <parameter name="use_sim_time">true</parameter>
-      </parameters>
+      <ros>
+        <namespace>/</namespace>
+      </ros>
     </plugin>
   </gazebo>
 

@@ -16,7 +16,7 @@ def generate_launch_description():
     }
 
     # -------------------------------
-    # Gazebo Fortress (SYSTEM PROCESS)
+    # Gazebo Fortress
     # -------------------------------
     gazebo = ExecuteProcess(
         cmd=['ign', 'gazebo', 'empty.sdf', '-r'],
@@ -34,7 +34,41 @@ def generate_launch_description():
     )
 
     # -------------------------------
-    # Spawn robot into Gazebo
+    # ros2_control
+    # -------------------------------
+    controller_manager = Node(
+        package='controller_manager',
+        executable='ros2_control_node',
+        parameters=[
+            robot_description,
+            os.path.join(pkg_path, 'config', 'controller.yaml'),
+        ],
+        output='screen'
+    )
+
+    # -------------------------------
+    # Controller Spawners
+    # -------------------------------
+    jsb = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['joint_state_broadcaster'],
+    )
+
+    steering = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['steering_controller'],
+    )
+
+    rear_wheels = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['rear_wheel_controller'],
+    )
+
+    # -------------------------------
+    # Spawn Robot into Gazebo
     # -------------------------------
     spawn_robot = Node(
         package='ros_gz_sim',
@@ -49,5 +83,9 @@ def generate_launch_description():
     return LaunchDescription([
         gazebo,
         rsp,
+        controller_manager,
+        jsb,
+        steering,
+        rear_wheels,
         spawn_robot,
     ])
