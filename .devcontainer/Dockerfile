@@ -30,7 +30,7 @@ RUN apt-get update && apt-get install -y \
     ros-humble-ros-gz-sim \
     ros-humble-ros-gz-bridge \
     ros-humble-gz-ros2-control \
-    ros-humble-ign-ros2-control \ 
+    ros-humble-ign-ros2-control\
     # ^^^ Added this! Often needed for compatibility with Fortress
     # --- The "Neuro-Nav" Intelligence Stack ---
     ros-humble-navigation2 \
@@ -41,6 +41,9 @@ RUN apt-get update && apt-get install -y \
     ros-humble-image-transport-plugins \
     ros-humble-vision-msgs \
  && rm -rf /var/lib/apt/lists/*
+
+ENV IGN_IP=127.0.0.1
+ENV IGN_TRANSPORT_TOPIC_STATISTICS=0
 
 # Source ROS automatically
 RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> /etc/bash.bashrc

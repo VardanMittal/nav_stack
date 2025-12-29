@@ -1,123 +1,169 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <!-- =========================================================
-         Local includes (each file must be self-contained)
-         ========================================================= -->
-    <xacro:include filename="inertial_macros.xacro"/>
-    <!-- <xacro:include filename="materials.xacro"/> -->
+  <!-- =========================================================
+       Properties
+       ========================================================= -->
+  <!-- Rotate wheels so cylinder axis aligns with rolling direction -->
 
-    <!-- =========================================================
-         Constants (avoid cross-file dependencies)
-         ========================================================= -->
-    <!-- -90 degrees in radians -->
-    <xacro:property name="wheel_rpy_x" value="-1.57079632679"/>
+  <!-- =========================================================
+       FRONT WHEELS (fixed to steering links)
+       ========================================================= -->
 
-    <!-- =========================================================
-         FRONT WHEELS (fixed to steering links)
-         ========================================================= -->
+  <!-- Front Left Wheel -->
+  <joint name="front_left_wheel_joint" type="fixed">
+    <parent link="front_left_steering_link"/>
+    <child link="front_left_wheel"/>
+    <origin xyz="0 0 0" rpy="-1.5708 0 0"/>
+  </joint>
 
-    <!-- Front Left Wheel -->
-    <joint name="front_left_wheel_joint" type="fixed">
-        <parent link="front_left_steering_link"/>
-        <child link="front_left_wheel"/>
-        <origin xyz="0 0 0" rpy="${wheel_rpy_x} 0 0"/>
-    </joint>
+  <link name="front_left_wheel">
+    <visual>
+      <geometry>
+        <cylinder radius="0.05" length="0.04"/>
+      </geometry>
+    </visual>
 
-    <link name="front_left_wheel">
-        <visual>
-            <geometry>
-                <cylinder radius="0.05" length="0.04"/>
-            </geometry>
-            <material name="blue"/>
-        </visual>
-        <collision>
-            <geometry>
-                <cylinder radius="0.05" length="0.04"/>
-            </geometry>
-        </collision>
-        <!-- IMPORTANT: inertial_cylinder REQUIRES an <origin> block -->
-        <xacro:inertial_cylinder mass="0.1" radius="0.05" length="0.04">
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-        </xacro:inertial_cylinder>
-    </link>
+    <collision>
+      <origin xyz="0 0 -0.05"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.04"/>
+      </geometry>
+    </collision>
 
-    <!-- Front Right Wheel -->
-    <joint name="front_right_wheel_joint" type="fixed">
-        <parent link="front_right_steering_link"/>
-        <child link="front_right_wheel"/>
-        <origin xyz="0 0 0" rpy="${wheel_rpy_x} 0 0"/>
-    </joint>
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="0.5"/>
+      <inertia ixx="0.001" iyy="0.001" izz="0.001"
+               ixy="0.0" ixz="0.0" iyz="0.0"/>
+    </inertial>
+  </link>
 
-    <link name="front_right_wheel">
-        <visual>
-            <geometry>
-                <cylinder radius="0.05" length="0.04"/>
-            </geometry>
-            <material name="blue"/>
-        </visual>
-        <collision>
-            <geometry>
-                <cylinder radius="0.05" length="0.04"/>
-            </geometry>
-        </collision>
-        <xacro:inertial_cylinder mass="0.1" radius="0.05" length="0.04">
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-        </xacro:inertial_cylinder>
-    </link>
+  <!-- Front Right Wheel -->
+  <joint name="front_right_wheel_joint" type="fixed">
+    <parent link="front_right_steering_link"/>
+    <child link="front_right_wheel"/>
+    <origin xyz="0 0 0" rpy="-1.5708 0 0"/>
+  </joint>
 
-    <!-- =========================================================
-         REAR WHEELS (driven, continuous joints)
-         ========================================================= -->
+  <link name="front_right_wheel">
+    <visual>
+      <geometry>
+        <cylinder radius="0.05" length="0.04"/>
+      </geometry>
+    </visual>
 
-    <!-- Rear Left Wheel -->
-    <joint name="rear_left_wheel_joint" type="continuous">
-        <parent link="base_link"/>
-        <child link="rear_left_wheel"/>
-        <origin xyz="-0.15 0.175 0" rpy="${wheel_rpy_x} 0 0"/>
-        <axis xyz="0 0 1"/>
-    </joint>
+    <collision>
+      <origin xyz="0 0 -0.05"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.04"/>
+      </geometry>
+    </collision>
 
-    <link name="rear_left_wheel">
-        <visual>
-            <geometry>
-                <cylinder radius="0.05" length="0.04"/>
-            </geometry>
-            <material name="blue"/>
-        </visual>
-        <collision>
-            <geometry>
-                <cylinder radius="0.05" length="0.04"/>
-            </geometry>
-        </collision>
-        <xacro:inertial_cylinder mass="0.1" radius="0.05" length="0.04">
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-        </xacro:inertial_cylinder>
-    </link>
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="0.5"/>
+      <inertia ixx="0.001" iyy="0.001" izz="0.001"
+               ixy="0.0" ixz="0.0" iyz="0.0"/>
+    </inertial>
+  </link>
 
-    <!-- Rear Right Wheel -->
-    <joint name="rear_right_wheel_joint" type="continuous">
-        <parent link="base_link"/>
-        <child link="rear_right_wheel"/>
-        <origin xyz="-0.15 -0.175 0" rpy="${wheel_rpy_x} 0 0"/>
-        <axis xyz="0 0 1"/>
-    </joint>
+  <!-- =========================================================
+       REAR WHEELS (DRIVEN)
+       ========================================================= -->
 
-    <link name="rear_right_wheel">
-        <visual>
-            <geometry>
-                <cylinder radius="0.05" length="0.04"/>
-            </geometry>
-            <material name="blue"/>
-        </visual>
-        <collision>
-            <geometry>
-                <cylinder radius="0.05" length="0.04"/>
-            </geometry>
-        </collision>
-        <xacro:inertial_cylinder mass="0.1" radius="0.05" length="0.04">
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-        </xacro:inertial_cylinder>
-    </link>
+  <!-- Rear Left Wheel -->
+  <joint name="rear_left_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="rear_left_wheel"/>
+    <origin xyz="-0.15 0.175 0" rpy="-1.5708 0 0"/>
+    <!-- CRITICAL FIX: correct rolling axis -->
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <link name="rear_left_wheel">
+    <visual>
+      <geometry>
+        <cylinder radius="0.05" length="0.04"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 -0.05"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.04"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="0.5"/>
+      <inertia ixx="0.001" iyy="0.001" izz="0.001"
+               ixy="0.0" ixz="0.0" iyz="0.0"/>
+    </inertial>
+  </link>
+
+  <!-- Rear Right Wheel -->
+  <joint name="rear_right_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="rear_right_wheel"/>
+    <origin xyz="-0.15 -0.175 0" rrpy="-1.5708 0 0"/>
+    <!-- CRITICAL FIX: correct rolling axis -->
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <link name="rear_right_wheel">
+    <visual>
+      <geometry>
+        <cylinder radius="0.05" length="0.04"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 -0.05"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.04"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="0.5"/>
+      <inertia ixx="0.001" iyy="0.001" izz="0.001"
+               ixy="0.0" ixz="0.0" iyz="0.0"/>
+    </inertial>
+  </link>
+
+  <!-- =========================================================
+       Gazebo Friction (MANDATORY)
+       ========================================================= -->
+
+  <gazebo reference="front_left_wheel">
+    <mu1>1.2</mu1>
+    <mu2>1.2</mu2>
+    <kp>100000.0</kp>
+    <kd>10.0</kd>
+  </gazebo>
+
+  <gazebo reference="front_right_wheel">
+    <mu1>1.2</mu1>
+    <mu2>1.2</mu2>
+    <kp>100000.0</kp>
+    <kd>10.0</kd>
+  </gazebo>
+
+  <gazebo reference="rear_left_wheel">
+    <mu1>1.2</mu1>
+    <mu2>1.2</mu2>
+    <kp>100000.0</kp>
+    <kd>10.0</kd>
+  </gazebo>
+
+  <gazebo reference="rear_right_wheel">
+    <mu1>1.2</mu1>
+    <mu2>1.2</mu2>
+    <kp>100000.0</kp>
+    <kd>10.0</kd>
+  </gazebo>
 
 </robot>

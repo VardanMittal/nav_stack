@@ -3,6 +3,7 @@ from launch import LaunchDescription
 from launch.actions import ExecuteProcess
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
+from launch.actions import TimerAction
 import xacro
 
 
@@ -14,6 +15,7 @@ def generate_launch_description():
     robot_description = {
         'robot_description': xacro.process_file(xacro_file).toxml()
     }
+    
 
     # -------------------------------
     # Gazebo Fortress
@@ -49,23 +51,34 @@ def generate_launch_description():
     # -------------------------------
     # Controller Spawners
     # -------------------------------
-    jsb = Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=['joint_state_broadcaster'],
+
+    jsb = TimerAction(
+        period=3.0,
+        actions=[Node(
+            package='controller_manager',
+            executable='spawner',
+            arguments=['joint_state_broadcaster'],
+        )]
     )
 
-    steering = Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=['steering_controller'],
+    steering = TimerAction(
+        period=4.0,
+        actions=[Node(
+            package='controller_manager',
+            executable='spawner',
+            arguments=['steering_controller'],
+        )]
     )
 
-    rear_wheels = Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=['rear_wheel_controller'],
+    rear_wheels = TimerAction(
+        period=5.0,
+        actions=[Node(
+            package='controller_manager',
+            executable='spawner',
+            arguments=['rear_wheel_controller'],
+        )]
     )
+
 
     # -------------------------------
     # Spawn Robot into Gazebo

@@ -2,12 +2,8 @@
 
   <gazebo>
     <plugin
-      filename="libros_gz_control.so"
-      name="ros_gz_control::GazeboSystem">
-      <ros>
-        <namespace>/</namespace>
-      </ros>
-    </plugin>
+      filename="libgz_ros2_control-system.so"
+      name="gz_ros2_control::GazeboSystem"/>
   </gazebo>
 
 </robot>
