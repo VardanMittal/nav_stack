@@ -2,9 +2,9 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <ros2_control name="NavStackSystem" type="system">
-        <hardware>
-            <plugin>mock_components/GenericSystem</plugin>
-        </hardware>
+          <hardware>
+            <plugin>gz_ros2_control/GazeboSystem</plugin>
+          </hardware>
 
         <joint name="front_left_steering_joint">
             <command_interface name="position"/>
