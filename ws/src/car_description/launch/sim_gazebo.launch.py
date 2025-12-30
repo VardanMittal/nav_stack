@@ -38,15 +38,15 @@ def generate_launch_description():
     # -------------------------------
     # ros2_control
     # -------------------------------
-    controller_manager = Node(
-        package='controller_manager',
-        executable='ros2_control_node',
-        parameters=[
-            robot_description,
-            os.path.join(pkg_path, 'config', 'controller.yaml'),
-        ],
-        output='screen'
-    )
+    # controller_manager = Node(
+    #     package='controller_manager',
+    #     executable='ros2_control_node',
+    #     parameters=[
+    #         robot_description,
+    #         os.path.join(pkg_path, 'config', 'controller.yaml'),
+    #     ],
+    #     output='screen'
+    # )
 
     # -------------------------------
     # Controller Spawners
@@ -96,9 +96,8 @@ def generate_launch_description():
     return LaunchDescription([
         gazebo,
         rsp,
-        controller_manager,
-        jsb,
-        steering,
-        rear_wheels,
         spawn_robot,
+        TimerAction(period=3.0, actions=[jsb]),
+        TimerAction(period=4.0, actions=[steering]),
+        TimerAction(period=5.0, actions=[rear_wheels]),
     ])

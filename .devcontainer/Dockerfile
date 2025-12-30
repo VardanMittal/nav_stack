@@ -19,10 +19,10 @@ RUN apt-get update && apt-get install -y \
     python3-colcon-common-extensions \
     python3-rosdep \
     python3-vcstool \
- && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 # -------------------------
-# ROS Control + Nav Stack
+# ROS Control + Navigation
 # -------------------------
 RUN apt-get update && apt-get install -y \
     ros-humble-xacro \
@@ -41,24 +41,16 @@ RUN apt-get update && apt-get install -y \
     ros-humble-image-transport \
     ros-humble-image-transport-plugins \
     ros-humble-vision-msgs \
- && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 # -------------------------
-# Gazebo Fortress (correct)
+# Gazebo Fortress (ROS-GZ way)
 # -------------------------
-RUN curl -sSL https://packages.osrfoundation.org/gazebo.gpg \
-    -o /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg && \
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] \
-    https://packages.osrfoundation.org/gazebo/ubuntu-stable \
-    $(lsb_release -cs) main" \
-    > /etc/apt/sources.list.d/gazebo-stable.list && \
-    apt-get update && \
-    apt-get install -y \
-        ignition-fortress \
-        ros-humble-ros-gz \
-        ros-humble-ros-gz-bridge \
-        ros-humble-ros-gz-sim \
- && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+    ros-humble-ros-gz \
+    ros-humble-ros-gz-bridge \
+    ros-humble-ros-gz-sim \
+    && rm -rf /var/lib/apt/lists/*
 
 # -------------------------
 # Environment
@@ -66,9 +58,14 @@ RUN curl -sSL https://packages.osrfoundation.org/gazebo.gpg \
 ENV IGN_IP=127.0.0.1
 ENV IGN_TRANSPORT_TOPIC_STATISTICS=0
 
-# Auto-source ROS + Gazebo
-RUN echo "source /opt/ros/humble/setup.bash" >> /etc/bash.bashrc && \
-    echo "source /usr/share/gazebo/setup.sh" >> /etc/bash.bashrc
+# Correct plugin paths
+ENV IGN_GAZEBO_SYSTEM_PLUGIN_PATH=/opt/ros/humble/lib:/usr/lib
+ENV LD_LIBRARY_PATH=/opt/ros/humble/lib:$LD_LIBRARY_PATH
+
+# -------------------------
+# Auto-source ROS
+# -------------------------
+RUN echo "source /opt/ros/humble/setup.bash" >> /etc/bash.bashrc
 
 WORKDIR /workspaces/nav_stack
 CMD ["bash"]

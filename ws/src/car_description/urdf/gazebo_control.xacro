@@ -2,8 +2,12 @@
 
   <gazebo>
     <plugin
-      filename="libgz_ros2_control-system.so"
-      name="gz_ros2_control::GazeboSystem"/>
+      filename="libros_gz_sim_ros2_control.so"
+      name="ros_gz_sim::RosGzSimRos2ControlPlugin">
+      <ros>
+        <namespace>/</namespace>
+      </ros>
+    </plugin>
   </gazebo>
 
 </robot>
